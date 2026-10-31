@@ -1,4 +1,4 @@
-# TigerDine for Slack "visiting_chefs.py"
+# TigerDine for Slack "dining.py"
 # Copyright (C) 2026 Campbell Bagley
 
 # This program is free software: you can redistribute it and/or modify
@@ -14,13 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import requests
 from datetime import date
+import requests
 
 
 def get_dining_info() -> list[dict]:
     url = "https://www.rit.edu/feeds/mobile-app/dining-all.php"
-    response = requests.get(url).json()
+    response = requests.get(url, timeout=5).json()
     return response
 
 
@@ -40,3 +40,19 @@ def get_locations_with_chefs(data: list[dict]) -> dict[list[str]]:
                     locations_with_chefs[location["name"]] = found_chefs
 
     return locations_with_chefs
+
+
+def get_food_truck_info() -> list[dict]:
+    url = "https://www.rit.edu/dining/feeds/mobile-app/food-trucks.php"
+    response = requests.get(url, timeout=5).json()
+    return response
+
+
+def get_trucks_with_availability(data: list[dict]) -> list[dict]:
+    trucks_with_availability: list[dict] = []
+
+    for truck in data:
+        if truck["datesAvailable"]:
+            trucks_with_availability.append(truck)
+
+    return trucks_with_availability
