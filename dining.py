@@ -20,7 +20,7 @@ import requests
 
 def get_dining_info() -> list[dict]:
     url = "https://www.rit.edu/feeds/mobile-app/dining-all.php"
-    response = requests.get(url).json()
+    response = requests.get(url, timeout=5).json()
     return response
 
 
@@ -44,7 +44,7 @@ def get_locations_with_chefs(data: list[dict]) -> dict[list[str]]:
 
 def get_food_truck_info() -> list[dict]:
     url = "https://www.rit.edu/dining/feeds/mobile-app/food-trucks.php"
-    response = requests.get(url).json()
+    response = requests.get(url, timeout=5).json()
     return response
 
 
