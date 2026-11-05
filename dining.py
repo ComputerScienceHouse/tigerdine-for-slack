@@ -48,11 +48,14 @@ def get_food_truck_info() -> list[dict]:
     return response
 
 
-def get_trucks_with_availability(data: list[dict]) -> list[dict]:
+# Gets trucks that have availability listed for today's date. If there are none, returns an empty list.
+def get_trucks_with_availability(data: list[dict], date_str: str) -> list[dict]:
     trucks_with_availability: list[dict] = []
 
     for truck in data:
         if truck["datesAvailable"]:
-            trucks_with_availability.append(truck)
+            for d in truck["datesAvailable"]:
+                if d["date"] == date_str:
+                    trucks_with_availability.append(truck)
 
     return trucks_with_availability
