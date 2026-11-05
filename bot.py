@@ -79,8 +79,8 @@ def get_data_and_send():
     # Today's Food Trucks
     # ===================
     truck_data = get_food_truck_info()
-    trucks_with_availability = get_trucks_with_availability(truck_data)
     date_str = date.today().strftime('%Y-%m-%d')
+    trucks_with_availability = get_trucks_with_availability(truck_data, date_str)
 
     if trucks_with_availability:
         slack_str = "Food trucks are on campus today!\n"
