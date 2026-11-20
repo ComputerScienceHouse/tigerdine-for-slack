@@ -15,13 +15,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from datetime import date
+import json
 import requests
 
 
 def get_dining_info() -> list[dict]:
     url = "https://www.rit.edu/feeds/mobile-app/dining-all.php"
-    response = requests.get(url, timeout=5).json()
-    return response
+    request = requests.get(url, timeout=5)
+    if request.status_code == 200:
+        try:
+            response = request.json()
+            return response
+        except json.decoder.JSONDecodeError:
+            return []
+    return []
 
 
 def get_locations_with_chefs(data: list[dict]) -> dict[list[str]]:
@@ -44,8 +51,14 @@ def get_locations_with_chefs(data: list[dict]) -> dict[list[str]]:
 
 def get_food_truck_info() -> list[dict]:
     url = "https://www.rit.edu/dining/feeds/mobile-app/food-trucks.php"
-    response = requests.get(url, timeout=5).json()
-    return response
+    request = requests.get(url, timeout=5)
+    if request.status_code == 200:
+        try:
+            response = request.json()
+            return response
+        except json.decoder.JSONDecodeError:
+            return []
+    return []
 
 
 # Gets trucks that have availability listed for today's date. If there are none, returns an empty list.
